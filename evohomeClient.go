@@ -24,7 +24,7 @@ type evohomeClientImpl struct {
 // NewEvohomeClient returns new EvohomeClient
 func NewEvohomeClient() (EvohomeClient, error) {
 	return &evohomeClientImpl{
-		baseURL: "https://tccna.honeywell.com/",
+		baseURL: "https://tccna.honeywell.com",
 	}, nil
 }
 
@@ -88,8 +88,6 @@ func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID st
 }
 
 func (ec *evohomeClientImpl) GetLocations(sessionID string, userID int) (locations []LocationResponse, err error) {
-	// https://tccna.honeywell.com/WebAPI/api/Session
-
 	requestURL := ec.baseURL + fmt.Sprintf("/WebAPI/api/locations?userId=%v&allData=True", userID)
 
 	// create client, in order to add headers
