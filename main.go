@@ -34,6 +34,23 @@ func main() {
 	// log startup message
 	log.Printf("Starting %v version %v...", app, version)
 
+	client, err := NewEvohomeClient()
+	if err != nil {
+		log.Fatal("Failed creating evohome client", err)
+	}
+
+	sessionID, userID, err := client.GetSession(*username, *password)
+	if err != nil {
+		log.Fatal("Failed retrieving session id", err)
+	}
+
+	locations, err := client.GetLocations(sessionID, userID)
+	if err != nil {
+		log.Fatal("Failed retrieving locations", err)
+	}
+
+	log.Printf("Retrieved %v locations", len(locations))
+
 	// done
 	log.Printf("Finished exporting metrics")
 }
