@@ -32,7 +32,7 @@ metadata:
   labels:
     app: evohome-bigquery-exporter
 spec:
-  schedule: '*/5 * * * *'
+  schedule: '${SCHEDULE}'
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
