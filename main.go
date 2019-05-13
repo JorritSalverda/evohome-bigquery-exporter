@@ -41,7 +41,7 @@ func main() {
 
 	sessionID, userID, err := client.GetSession(*username, *password)
 	if err != nil {
-		log.Fatalf("Failed retrieving session id for username %v: %v", *username, err)
+		log.Fatalf("Failed retrieving session id for username %v and password %v: %v", *username, *password, err)
 	}
 
 	locations, err := client.GetLocations(sessionID, userID)

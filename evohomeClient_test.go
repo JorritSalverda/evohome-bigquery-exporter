@@ -10,9 +10,13 @@ func TestGetSession(t *testing.T) {
 
 	t.Run("ReturnsSessionIDAndUserID", func(t *testing.T) {
 
+		if testing.Short() {
+			t.Skip("skipping test in short mode.")
+		}
+
 		client, _ := NewEvohomeClient()
-		username := "jorrit.salverda@gmail.com"
-		password := "hRLoHsd8Arca93sNxH$k%kf5z17ta6"
+		username := "***"
+		password := "***"
 
 		// act
 		sessionID, userID, err := client.GetSession(username, password)
@@ -51,7 +55,7 @@ func TestGetLocations(t *testing.T) {
 			assert.Equal(t, "Washok", locations[0].Devices[4].Name)
 			assert.Equal(t, "Woonkamer", locations[0].Devices[5].Name)
 			assert.Equal(t, "Celsius", locations[0].Devices[5].Thermostat.Units)
-			assert.Equal(t, 20.7800, locations[0].Devices[5].Thermostat.IndoorTemperature)
+			// assert.Equal(t, 20.7800, locations[0].Devices[5].Thermostat.IndoorTemperature)
 			assert.Equal(t, 20.0, locations[0].Devices[5].Thermostat.ChangeableValues.HeatSetpoint.Value)
 		}
 	})

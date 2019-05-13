@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"time"
 
@@ -30,6 +31,8 @@ func NewEvohomeClient() (EvohomeClient, error) {
 
 func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID string, userID int, err error) {
 	// https://tccna.honeywell.com/WebAPI/api/Session
+
+	log.Printf("Retrieving session for username %v and password %v", username, password)
 
 	requestURL := ec.baseURL + "/WebAPI/api/Session"
 
