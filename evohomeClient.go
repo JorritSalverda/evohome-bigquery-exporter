@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"time"
 
@@ -32,7 +31,7 @@ func NewEvohomeClient() (EvohomeClient, error) {
 func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID string, userID int, err error) {
 	// https://tccna.honeywell.com/WebAPI/api/Session
 
-	log.Printf("Retrieving session for username %v and password %v", username, password)
+	// using this approach can suffer from rate limiting, see https://github.com/watchforstock/evohome-client/issues/57
 
 	requestURL := ec.baseURL + "/WebAPI/api/Session"
 
@@ -91,6 +90,8 @@ func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID st
 }
 
 func (ec *evohomeClientImpl) GetLocations(sessionID string, userID int) (locations []LocationResponse, err error) {
+	// https://tccna.honeywell.com/WebAPI/api/locations?userId=%v&allData=True
+
 	requestURL := ec.baseURL + fmt.Sprintf("/WebAPI/api/locations?userId=%v&allData=True", userID)
 
 	// create client, in order to add headers
