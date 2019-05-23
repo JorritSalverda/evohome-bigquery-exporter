@@ -34,6 +34,7 @@ type UserInfoResponse struct {
 	LatestEulaAccepted bool   `json:"latestEulaAccepted"`
 }
 
+// LocationResponse contains information for the evohome device location
 type LocationResponse struct {
 	LocationID                int                      `json:"locationID"`
 	Name                      string                   `json:"name"`
@@ -57,8 +58,9 @@ type LocationResponse struct {
 	CanSearchForContractors   bool                     `json:"canSearchForContractors"`
 }
 
+// DeviceResponse contains additional information about the evohome device
 type DeviceResponse struct {
-	GatewayId           int                   `json:"gatewayId"`
+	GatewayID           int                   `json:"gatewayId"`
 	DeviceID            int                   `json:"deviceID"`
 	ThermostatModelType string                `json:"thermostatModelType"`
 	DeviceType          int                   `json:"deviceType"`
@@ -76,6 +78,7 @@ type DeviceResponse struct {
 	Instance            int                   `json:"instance"`
 }
 
+// ThermostatResponse contains information for each thermostat connected to the evohome device
 type ThermostatResponse struct {
 	Units                       string                   `json:"units"`
 	IndoorTemperature           float64                  `json:"indoorTemperature"`
@@ -103,17 +106,20 @@ type ThermostatResponse struct {
 	ScheduleCoolSp              float64                  `json:"scheduleCoolSp"`
 }
 
+// ChangeableValuesResponse indicates the mode and other variables for a thermostat
 type ChangeableValuesResponse struct {
 	Mode             string               `json:"mode"`
 	HeatSetpoint     HeatSetpointResponse `json:"heatSetpoint"`
 	VacationHoldDays int                  `json:"vacationHoldDays"`
 }
 
+// HeatSetpointResponse indicates target temperatur
 type HeatSetpointResponse struct {
 	Value  float64 `json:"value"`
 	Status string  `json:"status"`
 }
 
+// AlertSettingsResponse contains info about configured alerts
 type AlertSettingsResponse struct {
 	DeviceID                    int     `json:"deviceID"`
 	TempHigherThanActive        bool    `json:"tempHigherThanActive"`
@@ -133,9 +139,11 @@ type AlertSettingsResponse struct {
 	DeviceLostHours             int     `json:"deviceLostHours"`
 }
 
+// OneTouchButtonResponse is not something we're interested in
 type OneTouchButtonResponse struct {
 }
 
+// WeatherResponse contains info about the weather conditions at the location
 type WeatherResponse struct {
 	Condition   string  `json:"condition"`
 	Temperature float64 `json:"temperature"`
@@ -144,6 +152,7 @@ type WeatherResponse struct {
 	Phrase      string  `json:"phrase"`
 }
 
+// TimeZoneResponse contains info about the timezone of a location
 type TimeZoneResponse struct {
 	ID                      string `json:"id"`
 	DisplayName             string `json:"displayName"`

@@ -8,4 +8,6 @@ require (
 	github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf // indirect
 	github.com/sethgrid/pester v0.0.0-20180430140037-03e26c9abbbf
 	github.com/stretchr/testify v1.3.0
+	golang.org/x/oauth2 v0.0.0-20190517181255-950ef44c6e07
+	google.golang.org/api v0.5.0
 )
