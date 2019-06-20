@@ -7,9 +7,36 @@ github.com/alecthomas/template/parse
 github.com/alecthomas/units
 # github.com/davecgh/go-spew v1.1.0
 github.com/davecgh/go-spew/spew
+# github.com/ericchiang/k8s v1.2.0
+github.com/ericchiang/k8s
+github.com/ericchiang/k8s/apis/core/v1
+github.com/ericchiang/k8s/apis/meta/v1
+github.com/ericchiang/k8s/runtime
+github.com/ericchiang/k8s/watch/versioned
+github.com/ericchiang/k8s/apis/apiextensions/v1beta1
+github.com/ericchiang/k8s/apis/resource
+github.com/ericchiang/k8s/runtime/schema
+github.com/ericchiang/k8s/util/intstr
+# github.com/golang/protobuf v1.3.1
+github.com/golang/protobuf/proto
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
+# github.com/rs/zerolog v1.14.3
+github.com/rs/zerolog
+github.com/rs/zerolog/log
+github.com/rs/zerolog/internal/cbor
+github.com/rs/zerolog/internal/json
 # github.com/sethgrid/pester v0.0.0-20180430140037-03e26c9abbbf
 github.com/sethgrid/pester
 # github.com/stretchr/testify v1.3.0
 github.com/stretchr/testify/assert
+# golang.org/x/net v0.0.0-20190619014844-b5b0513f8c1b
+golang.org/x/net/http2
+golang.org/x/net/http/httpguts
+golang.org/x/net/http2/hpack
+golang.org/x/net/idna
+# golang.org/x/text v0.3.0
+golang.org/x/text/secure/bidirule
+golang.org/x/text/unicode/bidi
+golang.org/x/text/unicode/norm
+golang.org/x/text/transform

@@ -24,5 +24,5 @@ cat keyfile.json | base64
 For deploying a new version or changing the schedule run
 
 ```bash
-curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/5 * * * *' CONTAINER_TAG='0.1.7' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/15 * * * *' CONTAINER_TAG='0.1.8' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
 ```

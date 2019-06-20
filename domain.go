@@ -1,5 +1,7 @@
 package main
 
+import "time"
+
 // SessionRequest represents the json request body for POST https://tccna.honeywell.com/WebAPI/api/Session
 type SessionRequest struct {
 	Username      string `json:"Username"`
@@ -150,4 +152,10 @@ type TimeZoneResponse struct {
 	OffsetMinutes           int    `json:"offsetMinutes"`
 	CurrentOffsetMinutes    int    `json:"currentOffsetMinutes"`
 	UsingDaylightSavingTime bool   `json:"usingDaylightSavingTime"`
+}
+
+type SessionSecret struct {
+	SessionID   string
+	UserID      int
+	RetrievedAt time.Time
 }

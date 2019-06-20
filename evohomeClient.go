@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/sethgrid/pester"
 )
 
@@ -76,6 +77,8 @@ func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID st
 		return "", 0, fmt.Errorf("Request to %v failed with status code %v: %v", requestURL, response.StatusCode, string(body))
 	}
 
+	log.Debug().Interface("body", body).Msg("Session response before unmarshalling")
+
 	// unmarshal json body
 	var sessionResponse SessionResponse
 	err = json.Unmarshal(body, &sessionResponse)
@@ -124,6 +127,8 @@ func (ec *evohomeClientImpl) GetLocations(sessionID string, userID int) (locatio
 	if response.StatusCode != http.StatusOK {
 		return locations, fmt.Errorf("Request to %v failed with status code %v: %v", requestURL, response.StatusCode, string(body))
 	}
+
+	log.Debug().Interface("body", body).Msg("Location response before unmarshalling")
 
 	// unmarshal json body
 	err = json.Unmarshal(body, &locations)

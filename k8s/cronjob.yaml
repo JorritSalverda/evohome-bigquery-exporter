@@ -40,6 +40,10 @@ spec:
             image: jsalverda/evohome-bigquery-exporter:${CONTAINER_TAG}
             imagePullPolicy: IfNotPresent
             env:
+            - name: "NAMESPACE"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: "EVOHOME_USERNAME"
               valueFrom:
                 secretKeyRef:
