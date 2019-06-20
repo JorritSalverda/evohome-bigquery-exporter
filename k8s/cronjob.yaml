@@ -38,7 +38,6 @@ spec:
           containers:
           - name: evohome-bigquery-exporter
             image: jsalverda/evohome-bigquery-exporter:${CONTAINER_TAG}
-            imagePullPolicy: IfNotPresent
             env:
             - name: "NAMESPACE"
               valueFrom:
