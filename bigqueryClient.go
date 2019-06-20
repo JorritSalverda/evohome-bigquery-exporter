@@ -10,6 +10,8 @@ import (
 
 // BigQueryClient is the interface for connecting to bigquery
 type BigQueryClient interface {
+	CheckIfTableExists(dataset, table string) bool
+	CreateTable(dataset, table string, typeForSchema interface{}) error
 }
 
 type bigQueryClientImpl struct {
@@ -33,6 +35,13 @@ func NewBigQueryClient() (BigQueryClient, error) {
 	return &bigQueryClientImpl{
 		bqService: bigqueryService,
 	}, nil
+}
+
+func (bqc *bigQueryClientImpl) CheckIfTableExists(dataset, table string) bool {
+	return false
+}
+func (bqc *bigQueryClientImpl) CreateTable(dataset, table string, typeForSchema interface{}) error {
+	return nil
 }
 
 // func NewDatasetsService(s *Service) *DatasetsService {
