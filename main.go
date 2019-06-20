@@ -108,7 +108,7 @@ func main() {
 
 		// retrieve secret
 		var secret corev1.Secret
-		err = kubeClient.Get(context.Background(), *sessionSecretName, *namespace, &secret)
+		err = kubeClient.Get(context.Background(), *namespace, *sessionSecretName, &secret)
 		if err != nil {
 			log.Fatal().Err(err).Msgf("Failed retrieving secret %v", *sessionSecretName)
 		}

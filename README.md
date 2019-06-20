@@ -21,8 +21,14 @@ The service account keyfile can include newlines, since it's mounted as a file; 
 cat keyfile.json | base64
 ```
 
-For deploying a new version or changing the schedule run
+To set up rbac (role-based access control) permissions run
 
 ```bash
-curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/15 * * * *' CONTAINER_TAG='0.1.8' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/rbac.yaml | kubectl apply -f -
+```
+
+And for deploying a new version or changing the schedule run
+
+```bash
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/5 * * * *' CONTAINER_TAG='0.1.12' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
 ```
