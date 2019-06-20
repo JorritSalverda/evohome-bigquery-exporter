@@ -77,7 +77,7 @@ func (ec *evohomeClientImpl) GetSession(username, password string) (sessionID st
 		return "", 0, fmt.Errorf("Request to %v failed with status code %v: %v", requestURL, response.StatusCode, string(body))
 	}
 
-	log.Debug().Interface("body", string(body)).Msg("Session response before unmarshalling")
+	// log.Debug().Interface("body", string(body)).Msg("Session response before unmarshalling")
 
 	// unmarshal json body
 	var sessionResponse SessionResponse

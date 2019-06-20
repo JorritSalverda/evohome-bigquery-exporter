@@ -71,24 +71,33 @@ func main() {
 	var sessionSecret SessionSecret
 	if _, err := os.Stat(*sessionSecretPath); !os.IsNotExist(err) {
 
+		log.Info().Msgf("File %v exists, reading contents...", *sessionSecretPath)
+
 		// read secret
 		data, err := ioutil.ReadFile(*sessionSecretPath)
 		if err != nil {
 			log.Fatal().Err(err).Msgf("Failed reading file from path %v", *sessionSecretPath)
 		}
 
+		log.Info().Msgf("Unmarshalling file %v contents...", *sessionSecretPath)
+
 		// unmarshal secret
 		if err := json.Unmarshal(data, &sessionSecret); err != nil {
 			log.Fatal().Err(err).Interface("data", data).Msg("Failed unmarshalling session secret")
 		}
 
+		log.Info().Interface("RetrievedAt", sessionSecret.RetrievedAt).Msgf("Unmarshalled session secret, checking age...")
+
 		// check if session secret isn't too old
 		if sessionSecret.RetrievedAt.Add(time.Minute * time.Duration(*sessionTimeoutMinutes)).After(time.Now().UTC()) {
 			validSessionSecret = true
+			log.Info().Msg("Session secret is still valid...")
 		}
 	}
 
 	if !validSessionSecret {
+		log.Info().Msg("No valid session secret, retrieving new session id...")
+
 		sessionID, userID, err := evoClient.GetSession(*username, *password)
 		if err != nil {
 			log.Fatal().Err(err).Msgf("Failed retrieving session id for username %v", *username)
@@ -105,6 +114,8 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msg("Failed creating Kubernetes API client")
 		}
+
+		log.Info().Msg("Retrieved new session id, storing it in secret for using it in the next scheduled pod...")
 
 		// retrieve secret
 		var secret corev1.Secret
@@ -127,7 +138,11 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msgf("Failed updating secret %v", *sessionSecretName)
 		}
+
+		log.Info().Msgf("Stored session secret in secret %v...", *sessionSecretName)
 	}
+
+	log.Info().Msgf("Retrieving locations for user with id %v...", sessionSecret.UserID)
 
 	locations, err := evoClient.GetLocations(sessionSecret.SessionID, sessionSecret.UserID)
 	if err != nil {
