@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	"cloud.google.com/go/bigquery"
+)
 
 // SessionRequest represents the json request body for POST https://tccna.honeywell.com/WebAPI/api/Session
 type SessionRequest struct {
@@ -167,4 +171,19 @@ type SessionSecret struct {
 	SessionID   string
 	UserID      int
 	RetrievedAt time.Time
+}
+
+type BigQueryMeasurement struct {
+	Location   string         `bigquery:"location"`
+	MeasuredAt time.Time      `bigquery:"measured_at"`
+	Zones      []BigQueryZone `bigquery:"zones"`
+	InsertedAt time.Time      `bigquery:"inserted_at"`
+}
+
+type BigQueryZone struct {
+	Zone              string               `bigquery:"location"`
+	TemperatureUnit   string               `bigquery:"unit"`
+	TemperatureValue  bigquery.NullFloat64 `bigquery:"temperature"`
+	HeatSetPointValue bigquery.NullFloat64 `bigquery:"heat_setpoint"`
+	HumidityValue     bigquery.NullFloat64 `bigquery:"humidity"`
 }

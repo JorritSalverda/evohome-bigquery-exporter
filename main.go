@@ -32,6 +32,10 @@ var (
 	sessionSecretName     = kingpin.Flag("session-secret-name", "Name of the session secret.").Default("evohome-bigquery-exporter-credentials").OverrideDefaultFromEnvar("SESSION_SECRET_NAME").String()
 	sessionTimeoutMinutes = kingpin.Flag("session-timeout-minutes", "Number of minutes before a session has to be refreshed.").Default("30").OverrideDefaultFromEnvar("SESSION_TIMEOUT_MINUTES").Int()
 	namespace             = kingpin.Flag("namespace", "Namespace the pod runs in.").Envar("NAMESPACE").Required().String()
+	bigqueryProjectID     = kingpin.Flag("bigquery-project-id", "Google Cloud project id that contains the BigQuery dataset").Envar("BQ_PROJECT_ID").Required().String()
+	bigqueryDataset       = kingpin.Flag("bigquery-dataset", "Name of the BigQuery dataset").Envar("BQ_DATASET").Required().String()
+	bigqueryTable         = kingpin.Flag("bigquery-table", "Name of the BigQuery table").Envar("BQ_TABLE").Required().String()
+	outdoorZoneName       = kingpin.Flag("outdoor-zone-name", "Name of the zone representing the outdoor temperature and humidity").Default("Outside").OverrideDefaultFromEnvar("OUTDOOR_ZONE_NAME").String()
 )
 
 func main() {
@@ -150,6 +154,27 @@ func main() {
 	}
 
 	log.Debug().Interface("locations", locations).Msgf("Retrieved %v locations: ", len(locations))
+
+	bigqueryClient, err := NewBigQueryClient(*bigqueryProjectID)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed creating bigquery client")
+	}
+
+	log.Debug().Msgf("Checking if table %v.%v.%v exists...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
+	tableExist := bigqueryClient.CheckIfTableExists(*bigqueryDataset, *bigqueryTable)
+	if !tableExist {
+		log.Debug().Msgf("Creating table %v.%v.%v...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
+		bigqueryClient.CreateTable(*bigqueryDataset, *bigqueryTable, BigQueryMeasurement{}, "measured_at", true)
+	}
+
+	log.Debug().Msg("Mappling locations to measurements")
+	measurements := mapLocationsToMeasurements(locations, *outdoorZoneName)
+
+	log.Debug().Msgf("Inserting measurements into table %v.%v.%v...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
+	err = bigqueryClient.InsertMeasurements(*bigqueryDataset, *bigqueryTable, measurements)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed inserting measurements into bigquery table")
+	}
 
 	// done
 	log.Info().Msg("Finished exporting metrics")

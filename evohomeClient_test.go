@@ -1,11 +1,14 @@
 package main
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
+// export EVOHOME_USERNAME=...
+// export EVOHOME_PASSWORD=...
 func TestGetSession(t *testing.T) {
 
 	t.Run("ReturnsSessionIDAndUserID", func(t *testing.T) {
@@ -15,8 +18,8 @@ func TestGetSession(t *testing.T) {
 		}
 
 		client, _ := NewEvohomeClient()
-		username := "***"
-		password := "***"
+		username := os.Getenv("EVOHOME_USERNAME")
+		password := os.Getenv("EVOHOME_PASSWORD")
 
 		// act
 		sessionID, userID, err := client.GetSession(username, password)
@@ -37,8 +40,8 @@ func TestGetLocations(t *testing.T) {
 		}
 
 		client, _ := NewEvohomeClient()
-		username := "***"
-		password := "***"
+		username := os.Getenv("EVOHOME_USERNAME")
+		password := os.Getenv("EVOHOME_PASSWORD")
 		sessionID, userID, _ := client.GetSession(username, password)
 
 		// act

@@ -27,8 +27,14 @@ To set up rbac (role-based access control) permissions run
 curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/rbac.yaml | kubectl apply -f -
 ```
 
+In order to configure the application run
+
+```bash
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/configmap.yaml | BQ_PROJECT_ID='gcp-project-id' BQ_DATASET='my-dataset' BQ_TABLE='my-table' OUTDOOR_ZONE_NAME='outside' envsubst \$BQ_PROJECT_ID,\$BQ_DATASET,\$BQ_TABLE,\$OUTDOOR_ZONE_NAME | kubectl apply -f -
+```
+
 And for deploying a new version or changing the schedule run
 
 ```bash
-curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/1 * * * *' CONTAINER_TAG='0.1.16' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/1 * * * *' CONTAINER_TAG='0.1.18' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
 ```

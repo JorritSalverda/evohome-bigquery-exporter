@@ -53,6 +53,26 @@ spec:
                 secretKeyRef:
                   name: evohome-bigquery-exporter-credentials
                   key: password
+            - name: "BQ_PROJECT_ID"
+              valueFrom:
+                configMapKeyRef:
+                  name: evohome-bigquery-exporter-configs
+                  key: bq-project-id
+            - name: "BQ_DATASET"
+              valueFrom:
+                configMapKeyRef:
+                  name: evohome-bigquery-exporter-configs
+                  key: bq-dataset
+            - name: "BQ_TABLE"
+              valueFrom:
+                configMapKeyRef:
+                  name: evohome-bigquery-exporter-configs
+                  key: bq-table
+            - name: "OUTDOOR_ZONE_NAME"
+              valueFrom:
+                configMapKeyRef:
+                  name: evohome-bigquery-exporter-configs
+                  key: outdoor-zone-name
             - name: "GOOGLE_APPLICATION_CREDENTIALS"
               value: "/secrets/keyfile.json"
             resources:
