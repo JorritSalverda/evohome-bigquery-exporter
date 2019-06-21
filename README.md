@@ -36,5 +36,5 @@ curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/
 And for deploying a new version or changing the schedule run
 
 ```bash
-curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/1 * * * *' CONTAINER_TAG='0.1.18' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
+curl https://raw.githubusercontent.com/JorritSalverda/evohome-bigquery-exporter/master/k8s/cronjob.yaml | SCHEDULE='*/1 * * * *' CONTAINER_TAG='0.1.19' envsubst \$SCHEDULE,\$CONTAINER_TAG | kubectl apply -f -
 ```

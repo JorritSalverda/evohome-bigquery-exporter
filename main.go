@@ -164,10 +164,13 @@ func main() {
 	tableExist := bigqueryClient.CheckIfTableExists(*bigqueryDataset, *bigqueryTable)
 	if !tableExist {
 		log.Debug().Msgf("Creating table %v.%v.%v...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
-		bigqueryClient.CreateTable(*bigqueryDataset, *bigqueryTable, BigQueryMeasurement{}, "measured_at", true)
+		err := bigqueryClient.CreateTable(*bigqueryDataset, *bigqueryTable, BigQueryMeasurement{}, "measured_at", true)
+		if err != nil {
+			log.Fatal().Err(err).Msg("Failed creating bigquery table")
+		}
 	}
 
-	log.Debug().Msg("Mappling locations to measurements")
+	log.Debug().Msg("Mapping locations to measurements")
 	measurements := mapLocationsToMeasurements(locations, *outdoorZoneName)
 
 	log.Debug().Msgf("Inserting measurements into table %v.%v.%v...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
