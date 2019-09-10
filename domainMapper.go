@@ -51,9 +51,9 @@ func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName st
 }
 
 func getZoneInfoFromMapByName(zoneInfoMap map[int64]ZoneInfo, zoneName string) *ZoneInfo {
-	for k, v := range zoneInfoMap {
+	for _, v := range zoneInfoMap {
 		if v.Name == zoneName {
-			return v
+			return &v
 		}
 	}
 

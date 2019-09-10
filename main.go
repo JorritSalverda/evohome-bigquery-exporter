@@ -82,7 +82,7 @@ func main() {
 	validSessionSecret, sessionSecret := readSessionSecretFromFile()
 
 	if !validSessionSecret {
-		sessionSecret = refreshSessionSecret()
+		sessionSecret = refreshSessionSecret(evoClient)
 	}
 
 	log.Info().Msgf("Retrieving locations for user with id %v...", sessionSecret.UserID)
@@ -138,7 +138,7 @@ func readSessionSecretFromFile() (validSessionSecret bool, sessionSecret Session
 	return
 }
 
-func refreshSessionSecret() SessionSecret {
+func refreshSessionSecret(evoClient EvohomeClient) SessionSecret {
 	log.Info().Msg("No valid session secret, retrieving new session id...")
 
 	sessionID, userID, err := evoClient.GetSession(*username, *password)

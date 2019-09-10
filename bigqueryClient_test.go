@@ -216,7 +216,7 @@ func TestEndToEnd(t *testing.T) {
 		sessionID, userID, _ := evoClient.GetSession(os.Getenv("EVOHOME_USERNAME"), os.Getenv("EVOHOME_PASSWORD"))
 		locations, _ := evoClient.GetLocations(sessionID, userID)
 
-		measurements := mapLocationsToMeasurements(locations, "outside")
+		measurements := mapLocationsToMeasurements(locations, "outside", map[int64]ZoneInfo{})
 
 		// act
 		err := bqClient.InsertMeasurements(os.Getenv("BQ_DATASET"), "evohome_test", measurements)
