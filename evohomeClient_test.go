@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"testing"
 
@@ -48,6 +49,8 @@ func TestGetLocations(t *testing.T) {
 		locations, err := client.GetLocations(sessionID, userID)
 
 		if assert.Nil(t, err) {
+			log.Printf("%v", locations)
+
 			assert.Equal(t, 1, len(locations))
 			assert.Equal(t, "Thuis", locations[0].Name)
 			assert.Equal(t, 6, len(locations[0].Devices))

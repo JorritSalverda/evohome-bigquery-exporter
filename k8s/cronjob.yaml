@@ -85,8 +85,13 @@ spec:
             volumeMounts:
             - name: secrets
               mountPath: /secrets
+            - name: state
+              mountPath: /state
           terminationGracePeriodSeconds: 300
           volumes:
           - name: secrets
             secret:
               secretName: evohome-bigquery-exporter-credentials
+          - name: state
+            configMap:
+              name: evohome-hgi80-listener-state

@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/bigquery"
 )
 
-func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName string) (measurements []BigQueryMeasurement) {
+func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName string, zoneInfoMap map[int64]ZoneInfo) (measurements []BigQueryMeasurement) {
 	measurements = []BigQueryMeasurement{}
 
 	for _, l := range locations {
@@ -19,11 +19,19 @@ func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName st
 
 		// loop devices
 		for _, d := range l.Devices {
+
+			heatDemandValue := bigquery.NullFloat64{Valid: false}
+			zoneInfo := getZoneInfoFromMapByName(zoneInfoMap, d.Name)
+			if zoneInfo != nil {
+				heatDemandValue = bigquery.NullFloat64{Float64: zoneInfo.HeatDemand, Valid: true}
+			}
+
 			zone := BigQueryZone{
 				Zone:              d.Name,
 				TemperatureUnit:   d.Thermostat.Units,
 				TemperatureValue:  bigquery.NullFloat64{Float64: d.Thermostat.IndoorTemperature, Valid: true},
 				HeatSetPointValue: bigquery.NullFloat64{Float64: d.Thermostat.ChangeableValues.HeatSetpoint.Value, Valid: true},
+				HeatDemandValue:   heatDemandValue,
 			}
 			measurement.Zones = append(measurement.Zones, zone)
 		}
@@ -40,4 +48,14 @@ func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName st
 	}
 
 	return
+}
+
+func getZoneInfoFromMapByName(zoneInfoMap map[int64]ZoneInfo, zoneName string) *ZoneInfo {
+	for k, v := range zoneInfoMap {
+		if v.Name == zoneName {
+			return v
+		}
+	}
+
+	return nil
 }

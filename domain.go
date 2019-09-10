@@ -185,5 +185,25 @@ type BigQueryZone struct {
 	TemperatureUnit   string               `bigquery:"unit"`
 	TemperatureValue  bigquery.NullFloat64 `bigquery:"temperature"`
 	HeatSetPointValue bigquery.NullFloat64 `bigquery:"heat_setpoint"`
+	HeatDemandValue   bigquery.NullFloat64 `bigquery:"heat_demand"`
 	HumidityValue     bigquery.NullFloat64 `bigquery:"humidity"`
+}
+
+// State from evohome-hgi80-listener
+type State struct {
+	ZoneInfoMap map[int64]ZoneInfo
+}
+
+type ZoneInfo struct {
+	ID             int64
+	Name           string
+	MinTemperature float64
+	MaxTemperature float64
+	Temperature    float64
+	Setpoint       float64
+	HeatDemand     float64
+}
+
+func (z ZoneInfo) IsActualZone() bool {
+	return z.ID < 12 && z.Name != ""
 }
