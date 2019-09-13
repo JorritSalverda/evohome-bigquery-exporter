@@ -192,6 +192,7 @@ type BigQueryZone struct {
 // State from evohome-hgi80-listener
 type State struct {
 	ZoneInfoMap map[int64]ZoneInfo
+	LastUpdated time.Time
 }
 
 type ZoneInfo struct {

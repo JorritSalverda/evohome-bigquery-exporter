@@ -71,7 +71,7 @@ func main() {
 		log.Fatal().Err(err).Msg("Failed creating evohome client")
 	}
 
-	zoneInfoMap := readStateFromStateFile()
+	state := readStateFromStateFile()
 
 	bigqueryClient, err := NewBigQueryClient(*bigqueryProjectID)
 	if err != nil {
@@ -95,7 +95,7 @@ func main() {
 	log.Debug().Interface("locations", locations).Msgf("Retrieved %v locations: ", len(locations))
 
 	log.Debug().Msg("Mapping locations to measurements")
-	measurements := mapLocationsToMeasurements(locations, *outdoorZoneName, zoneInfoMap)
+	measurements := mapLocationsToMeasurements(locations, *outdoorZoneName, state)
 
 	log.Debug().Msgf("Inserting measurements into table %v.%v.%v...", *bigqueryProjectID, *bigqueryDataset, *bigqueryTable)
 	err = bigqueryClient.InsertMeasurements(*bigqueryDataset, *bigqueryTable, measurements)
@@ -206,12 +206,9 @@ func initBigqueryTable(bigqueryClient BigQueryClient) {
 	}
 }
 
-func readStateFromStateFile() map[int64]ZoneInfo {
-
-	zoneInfoMap := map[int64]ZoneInfo{}
+func readStateFromStateFile() (state *State) {
 
 	// check if state file exists in configmap
-	var state State
 	if _, err := os.Stat(*stateFilePath); !os.IsNotExist(err) {
 
 		log.Info().Msgf("File %v exists, reading contents...", *stateFilePath)
@@ -228,9 +225,7 @@ func readStateFromStateFile() map[int64]ZoneInfo {
 		if err := json.Unmarshal(data, &state); err != nil {
 			log.Fatal().Err(err).Interface("data", data).Msg("Failed unmarshalling state")
 		}
-
-		zoneInfoMap = state.ZoneInfoMap
 	}
 
-	return zoneInfoMap
+	return state
 }

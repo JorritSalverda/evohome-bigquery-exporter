@@ -6,7 +6,7 @@ import (
 	"cloud.google.com/go/bigquery"
 )
 
-func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName string, zoneInfoMap map[int64]ZoneInfo) (measurements []BigQueryMeasurement) {
+func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName string, state *State) (measurements []BigQueryMeasurement) {
 	measurements = []BigQueryMeasurement{}
 
 	for _, l := range locations {
@@ -15,6 +15,11 @@ func mapLocationsToMeasurements(locations []LocationResponse, outdoorZoneName st
 			MeasuredAt: time.Now().UTC(),
 			Zones:      []BigQueryZone{},
 			InsertedAt: time.Now().UTC(),
+		}
+
+		zoneInfoMap := map[int64]ZoneInfo{}
+		if state != nil && time.Since(state.LastUpdated).Minutes() < 10 {
+			zoneInfoMap = state.ZoneInfoMap
 		}
 
 		// loop devices
