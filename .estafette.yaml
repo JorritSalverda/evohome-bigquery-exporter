@@ -1,6 +1,5 @@
 labels:
   app-group: jarvis
-  team: jsalverda
   language: golang
 
 version:
