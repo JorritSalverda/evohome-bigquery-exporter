@@ -29,12 +29,13 @@ spec:
       completions: 1
       parallelism: 1
       backoffLimit: 0
+      activeDeadlineSeconds: 240
       template:
         metadata:
           labels:
             app: evohome-bigquery-exporter
         spec:
-          restartPolicy: OnFailure
+          restartPolicy: Never
           serviceAccount: evohome-bigquery-exporter
           containers:
           - name: evohome-bigquery-exporter
