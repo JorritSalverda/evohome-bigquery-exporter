@@ -20,7 +20,7 @@ metadata:
     app: evohome-bigquery-exporter
 spec:
   schedule: '${SCHEDULE}'
-  concurrencyPolicy: Allow
+  concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
   suspend: false  
@@ -28,6 +28,7 @@ spec:
     spec:
       completions: 1
       parallelism: 1
+      backoffLimit: 0
       template:
         metadata:
           labels:
