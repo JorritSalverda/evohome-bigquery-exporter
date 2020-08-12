@@ -1,29 +1,15 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: evohome-bigquery-exporter
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: evohome-bigquery-exporter
-  namespace: evohome-bigquery-exporter
-  labels:
-    app: evohome-bigquery-exporter
----
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: evohome-bigquery-exporter
-  namespace: evohome-bigquery-exporter
+  name: {{ include "evohome-bigquery-exporter.fullname" . }}
   labels:
-    app: evohome-bigquery-exporter
+    {{- include "evohome-bigquery-exporter.labels" . | nindent 4 }}
 spec:
-  schedule: '${SCHEDULE}'
-  concurrencyPolicy: Forbid
+  schedule: {{ .Values.cronjob.schedule }}
+  concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
-  suspend: false  
+  suspend: false
   jobTemplate:
     spec:
       completions: 1
@@ -32,14 +18,27 @@ spec:
       activeDeadlineSeconds: 240
       template:
         metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}  
           labels:
-            app: evohome-bigquery-exporter
+            {{- include "evohome-bigquery-exporter.labels" . | nindent 12 }}
         spec:
           restartPolicy: Never
-          serviceAccount: evohome-bigquery-exporter
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          serviceAccountName: {{ include "evohome-bigquery-exporter.serviceAccountName" . }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
           containers:
-          - name: evohome-bigquery-exporter
-            image: jsalverda/evohome-bigquery-exporter:${CONTAINER_TAG}
+          - name: {{ .Chart.Name }}
+            securityContext:
+              {{- toYaml .Values.securityContext | nindent 12 }}
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+            imagePullPolicy: {{ .Values.image.pullPolicy }}    
             env:
             - name: "NAMESPACE"
               valueFrom:
@@ -78,22 +77,29 @@ spec:
             - name: "GOOGLE_APPLICATION_CREDENTIALS"
               value: "/secrets/keyfile.json"
             resources:
-              requests:
-                cpu: 100m
-                memory: 200Mi
-              limits:
-                cpu: 200m
-                memory: 200Mi
+              {{- toYaml .Values.resources | nindent 12 }}
             volumeMounts:
-            - name: secrets
-              mountPath: /secrets
-            - name: state
-              mountPath: /state
+              - name: secrets
+                mountPath: /secrets
+              - name: state
+                mountPath: /state
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           terminationGracePeriodSeconds: 300
           volumes:
           - name: secrets
             secret:
-              secretName: evohome-bigquery-exporter-credentials
+              secretName: {{ include "evohome-bigquery-exporter.fullname" . }}
           - name: state
             configMap:
-              name: evohome-hgi80-listener-state
+              name: {{ include "evohome-bigquery-exporter.fullname" . }}
