@@ -29,7 +29,7 @@ var (
 	username              = kingpin.Flag("username", "Evohome username.").Envar("EVOHOME_USERNAME").Required().String()
 	password              = kingpin.Flag("password", "Evohome password.").Envar("EVOHOME_PASSWORD").Required().String()
 	sessionSecretPath     = kingpin.Flag("session-secret-path", "Path to session secret.").Default("/secrets/session.json").OverrideDefaultFromEnvar("SESSION_SECRET_PATH").String()
-	sessionSecretName     = kingpin.Flag("session-secret-name", "Name of the session secret.").Default("evohome-bigquery-exporter-credentials").OverrideDefaultFromEnvar("SESSION_SECRET_NAME").String()
+	sessionSecretName     = kingpin.Flag("session-secret-name", "Name of the session secret.").Default("evohome-bigquery-exporter").OverrideDefaultFromEnvar("SESSION_SECRET_NAME").String()
 	sessionTimeoutMinutes = kingpin.Flag("session-timeout-minutes", "Number of minutes before a session has to be refreshed.").Default("30").OverrideDefaultFromEnvar("SESSION_TIMEOUT_MINUTES").Int()
 	stateFilePath         = kingpin.Flag("state-file-path", "Path to file with state from evohome-hgi80-listener.").Default("/state/state.json").OverrideDefaultFromEnvar("STATE_FILE_PATH").String()
 	namespace             = kingpin.Flag("namespace", "Namespace the pod runs in.").Envar("NAMESPACE").Required().String()

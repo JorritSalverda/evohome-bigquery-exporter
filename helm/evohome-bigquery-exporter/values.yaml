@@ -3,9 +3,8 @@
 # Declare variables to be passed into your templates.
 
 cronjob:
-  schedule: '*/1 * * * *'
+  schedule: '*/5 * * * *'
   concurrencyPolicy: Forbid
-  mountHgiListenerState: false
 
 hgi80listener:
   enabled: false
