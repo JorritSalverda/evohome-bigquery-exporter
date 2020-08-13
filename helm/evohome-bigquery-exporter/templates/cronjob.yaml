@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "evohome-bigquery-exporter.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.cronjob.schedule }}
+  schedule: {{ .Values.cronjob.schedule | quote }}
   concurrencyPolicy: {{ .Values.cronjob.concurrencyPolicy }}
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 3
@@ -36,7 +36,7 @@ spec:
           containers:
           - name: {{ .Chart.Name }}
             securityContext:
-              {{- toYaml .Values.securityContext | nindent 12 }}
+              {{- toYaml .Values.securityContext | nindent 14 }}
             image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}    
             env:
@@ -77,7 +77,7 @@ spec:
             - name: "GOOGLE_APPLICATION_CREDENTIALS"
               value: "/secrets/keyfile.json"
             resources:
-              {{- toYaml .Values.resources | nindent 12 }}
+              {{- toYaml .Values.resources | nindent 14 }}
             volumeMounts:
               - name: secrets
                 mountPath: /secrets
