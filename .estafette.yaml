@@ -75,3 +75,4 @@ stages:
   publish-helm-chart:
     image: extensions/helm:dev
     action: publish
+    repoUrl: https://helm.jorritsalverda.com/
