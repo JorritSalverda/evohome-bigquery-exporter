@@ -65,7 +65,7 @@ stages:
       secret:
         evohomeUsername: myusername
         evohomePassword: mypassword
-        gcpServiceAccountKeyfile: {}
+        gcpServiceAccountKeyfile: '{}'
 
   clone-charts-repo:
     image: extensions/git-clone:stable

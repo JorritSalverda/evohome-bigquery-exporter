@@ -15,7 +15,7 @@ config:
 secret:
   evohomeUsername: myusername
   evohomePassword: mypassword
-  gcpServiceAccountKeyfile: {}
+  gcpServiceAccountKeyfile: '{}'
 
 image:
   repository: jsalverda/evohome-bigquery-exporter
