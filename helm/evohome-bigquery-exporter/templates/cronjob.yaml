@@ -81,10 +81,10 @@ spec:
             volumeMounts:
             - name: secrets
               mountPath: /secrets
-            {{- if .Values.hgi80listener.enabled -}}
+            {{- if .Values.hgi80listener.enabled }}
             - name: state
               mountPath: /state
-            {{- end -}}
+            {{- end }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
             {{- toYaml . | nindent 12 }}
@@ -102,8 +102,8 @@ spec:
           - name: secrets
             secret:
               secretName: {{ include "evohome-bigquery-exporter.fullname" . }}
-          {{- if .Values.hgi80listener.enabled -}}
+          {{- if .Values.hgi80listener.enabled }}
           - name: state
             configMap:
               name: {{ .Values.hgi80listener.stateConfigmapName }}
-          {{- end -}}
+          {{- end }}
