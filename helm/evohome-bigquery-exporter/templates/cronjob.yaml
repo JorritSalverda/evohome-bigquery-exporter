@@ -40,42 +40,42 @@ spec:
             image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
             imagePullPolicy: {{ .Values.image.pullPolicy }}    
             env:
-            - name: "NAMESPACE"
+            - name: NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: "EVOHOME_USERNAME"
+            - name: EVOHOME_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: evohome-bigquery-exporter-credentials
                   key: username
-            - name: "EVOHOME_PASSWORD"
+            - name: EVOHOME_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: evohome-bigquery-exporter-credentials
                   key: password
-            - name: "BQ_PROJECT_ID"
+            - name: BQ_PROJECT_ID
               valueFrom:
                 configMapKeyRef:
                   name: evohome-bigquery-exporter-configs
                   key: bq-project-id
-            - name: "BQ_DATASET"
+            - name: BQ_DATASET
               valueFrom:
                 configMapKeyRef:
                   name: evohome-bigquery-exporter-configs
                   key: bq-dataset
-            - name: "BQ_TABLE"
+            - name: BQ_TABLE
               valueFrom:
                 configMapKeyRef:
                   name: evohome-bigquery-exporter-configs
                   key: bq-table
-            - name: "OUTDOOR_ZONE_NAME"
+            - name: OUTDOOR_ZONE_NAME
               valueFrom:
                 configMapKeyRef:
                   name: evohome-bigquery-exporter-configs
                   key: outdoor-zone-name
-            - name: "GOOGLE_APPLICATION_CREDENTIALS"
-              value: "/secrets/keyfile.json"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /secrets/keyfile.json
             resources:
               {{- toYaml .Values.resources | nindent 14 }}
             volumeMounts:

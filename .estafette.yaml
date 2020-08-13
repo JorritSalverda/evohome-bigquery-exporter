@@ -38,9 +38,6 @@ stages:
 
       COPY ${ESTAFETTE_GIT_NAME} /
       COPY ca-certificates.crt /etc/ssl/certs/
-      
-      ENV EVOHOME_USERNAME="" \
-          EVOHOME_PASSWORD=""
 
       ENTRYPOINT ["/${ESTAFETTE_GIT_NAME}"]
     repositories:

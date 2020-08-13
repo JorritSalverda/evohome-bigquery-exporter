@@ -7,15 +7,15 @@ cronjob:
   concurrencyPolicy: Forbid
 
 config:
-  bqProjectID: 'gcp-project-id'
-  bqDataset: 'my-dataset'
-  bqTable: 'my-table'
-  outdoorZoneName: 'outside'
+  bqProjectID: gcp-project-id
+  bqDataset: my-dataset
+  bqTable: my-table
+  outdoorZoneName: outside
 
 secret:
-  evohomeUsername: ''
-  evohomePassword: ''
-  gcpServiceAccountKeyfile: ''
+  evohomeUsername: myusername
+  evohomePassword: mypassword
+  gcpServiceAccountKeyfile: {}
 
 image:
   repository: jsalverda/evohome-bigquery-exporter

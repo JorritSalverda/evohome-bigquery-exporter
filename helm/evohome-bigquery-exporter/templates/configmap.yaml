@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "evohome-bigquery-exporter.labels" . | nindent 4 }}
 data:
-  bq-project-id: {{ .Values.config.bqProjectID }}
-  bq-dataset: {{ .Values.config.bqDataset }}
-  bq-table: {{ .Values.config.bqTable }}
-  outdoor-zone-name: {{ .Values.config.outdoorZoneName }}
+  bq-project-id: {{ .Values.config.bqProjectID | toString }}
+  bq-dataset: {{ .Values.config.bqDataset | toString }}
+  bq-table: {{ .Values.config.bqTable | toString }}
+  outdoor-zone-name: {{ .Values.config.outdoorZoneName | toString }}
