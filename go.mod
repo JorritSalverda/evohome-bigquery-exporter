@@ -5,16 +5,13 @@ go 1.12
 require (
 	cloud.google.com/go v0.34.0
 	github.com/alecthomas/kingpin v2.2.6+incompatible
-	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc // indirect
-	github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf // indirect
 	github.com/ericchiang/k8s v1.2.0
-	github.com/golang/protobuf v1.3.1 // indirect
+	github.com/estafette/estafette-foundation v0.0.61
 	github.com/google/martian v2.1.0+incompatible // indirect
 	github.com/googleapis/gax-go v2.0.2+incompatible // indirect
-	github.com/rs/zerolog v1.14.3
-	github.com/sethgrid/pester v0.0.0-20180430140037-03e26c9abbbf
-	github.com/stretchr/testify v1.3.0
-	golang.org/x/net v0.0.0-20190619014844-b5b0513f8c1b // indirect
+	github.com/rs/zerolog v1.17.2
+	github.com/sethgrid/pester v1.1.0
+	github.com/stretchr/testify v1.4.0
 	golang.org/x/oauth2 v0.0.0-20190517181255-950ef44c6e07 // indirect
 	google.golang.org/api v0.5.0 // indirect
 )

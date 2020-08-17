@@ -21,6 +21,8 @@ secret:
   evohomePassword: mypassword
   gcpServiceAccountKeyfile: '{}'
 
+logFormat: json
+
 image:
   repository: jsalverda/evohome-bigquery-exporter
   pullPolicy: IfNotPresent
