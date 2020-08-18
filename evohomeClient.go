@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,6 +11,11 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/sethgrid/pester"
+)
+
+var (
+	// ErrRequestNotAuthorized is returned if a query for a user returns no results
+	ErrRequestNotAuthorized = errors.New("The request is not authorized")
 )
 
 // EvohomeClient is the interface for connecting to the evohome api
@@ -122,6 +128,10 @@ func (ec *evohomeClientImpl) GetLocations(sessionID string, userID int) (locatio
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return
+	}
+
+	if response.StatusCode == http.StatusUnauthorized {
+		return locations, ErrRequestNotAuthorized
 	}
 
 	if response.StatusCode != http.StatusOK {

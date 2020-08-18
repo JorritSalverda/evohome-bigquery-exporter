@@ -70,7 +70,16 @@ func main() {
 
 	locations, err := evoClient.GetLocations(sessionSecret.SessionID, sessionSecret.UserID)
 	if err != nil {
-		log.Fatal().Err(err).Msgf("Failed retrieving locations for userid %v", sessionSecret.UserID)
+		if err == ErrRequestNotAuthorized {
+			// refresh session
+			sessionSecret = refreshSessionSecret(evoClient)
+			locations, err = evoClient.GetLocations(sessionSecret.SessionID, sessionSecret.UserID)
+			if err != nil {
+				log.Fatal().Err(err).Msgf("Failed retrieving locations for userid %v after session refresh", sessionSecret.UserID)
+			}
+		} else {
+			log.Fatal().Err(err).Msgf("Failed retrieving locations for userid %v", sessionSecret.UserID)
+		}
 	}
 
 	log.Debug().Interface("locations", locations).Msgf("Retrieved %v locations: ", len(locations))
