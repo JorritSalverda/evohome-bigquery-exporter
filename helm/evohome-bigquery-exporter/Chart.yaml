@@ -1,6 +1,6 @@
 apiVersion: v2
 name: evohome-bigquery-exporter
-description: A Helm chart for Kubernetes
+description: Stores Evohome zone temperatures in Google BigQuery
 
 # A chart can be either an 'application' or a 'library' chart.
 #
